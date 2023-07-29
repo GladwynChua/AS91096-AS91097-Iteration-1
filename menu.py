@@ -1,21 +1,24 @@
-
 #Import the required libraries
 from tkinter import *
 import tkinter as tk
 import sys
 from tkinter import messagebox
 
+# Defining Functions
+# Function to credit supermarket and verifying my work  
 def credits_message():
    messagebox.showinfo("Price Comparison: Botany Supermarkets",message="This code was developed by Gladwyn Chua ©. " "Thanks to New World, Countdown and Pak 'n Save for providing me with the prices to compare from.                 Last Price Updated 13/07/23")
 
+# Function to quit the application
 def quit():
    messagebox.showinfo("Price Comparison: Botany Supermarkets",message="Hope to see you again soon!")
    sys.exit()
 
+# Function to create popu menu
 def menu_popup(event):
    # display the popup menu
    try:
-      popup.tk_popup(event.x_root, event.y_root, 0)
+      popup.tk_popup(event.x_root, event.y_root, 0) # coordinates
    finally:
       #Release the grab
       popup.grab_release()  
@@ -36,22 +39,19 @@ banner_label = tk.Label(banner_frame, text="Price Comparison: Botany Supermarket
 banner_label.pack(pady=10)
 
 
-#Add Menu
+# Add Menu
 popup = Menu(win, tearoff=0) 
 
+# Start Button
 start = tk.Button(win, text="Start", bg="#2F4F4F", command=win.destroy, width = 20,  fg="white", font=('Ariel', 45,))
 start.place(relx=0.25, rely=0.32)
 
+# Credits Button
 recognition = tk.Button(win, text="Credit", bg="#2F4F4F", command=credits_message, width = 20,  fg="white", font=('Ariel', 45,))
 recognition.place(relx=0.25, rely=0.52)
 
-
+# Quit Button
 exit = tk.Button(win, text="Quit", bg="#2F4F4F", command=quit, width = 20, fg="white",font=('Ariel', 45))
 exit.place(relx=0.25, rely=0.72)
 
 mainloop()
-
-
-
-
-
