@@ -4,15 +4,21 @@ from tkinter import messagebox
 import sys
 import menu
 
+# Defining Functions
+
+# Function to quit the application
 def quit():
     messagebox.showinfo("Price Comparison: Botany Supermarkets",message="Hope to see you again soon!")
     sys.exit()
 
+# Function comparing different supermarket prices 
 def compare_prices():
     selected_product = product_var.get()
 
+     # Dictionares consisting of products and price respective to their supermarket
     supermarkets = {
         "New World": {
+            # Product name, brand and deals
             "Milk (3L)": {
                 "Value Standard Milk": (5.69, ""),
                 "Value Lite Reduced Fat Milk": (5.69, ""),
@@ -67,6 +73,7 @@ def compare_prices():
             },
         },
         "Countdown": {
+            # Product name, brand and deals
             "Milk (3L)": {
                 "Meadow Fresh Milk Standard Original": (7.26, ""),
                 "Anchor Milk Lite 98.5 percent Fat Free": (7.59, ""),
@@ -148,6 +155,7 @@ def compare_prices():
             },
         },
         "Pak'n Save": {
+            # Product name, brand and deals
             "Milk (3L)": {
                 "Value Standard Milk": (5.57, ""),
                 "Value Lite Reduced Fat Milk": (5.57, ""),
@@ -158,7 +166,7 @@ def compare_prices():
                 "Rise N Shine 7 12 Pack Colony Eggs": (8.39, ""),
                 "Better Eggs Mixed Free Range Eggs": (10.99, ""),
                 "Better Eggs Free Rnage Size 7 Eggs": (11.49, ""),
-            },
+            },  
             "Butter Blocks (500g)": {
                 "Pams Pure Butter": (4.89, ""),
                 "Tararua Butter": (5.99, ""),
@@ -198,19 +206,23 @@ def compare_prices():
         },
     }
 
-
+    #Initialise an empty string - make sure anything under "result_text" is cleared
     result_text = ""
 
-    cheapest_price = float("inf")
+    # Variables to track the cheapest price and related details
+    cheapest_price = float("inf") #unbound/infinite values
     cheapest_supermarkets = []
     cheapest_brands = []
     cheapest_deals = []
 
+    # Goes through supermarkets listed in dictonaries to find cheapest price
+    # If elif statements to determine what 
     for supermarket, products in supermarkets.items():
         if selected_product in products:
             selected_items = products[selected_product]
             result_text += f"--- {supermarket} ---\n"
-            if isinstance(selected_items, dict):
+            if isinstance(selected_items, dict): # isinstance is to check the type of object - generally used for multiple classess and handling objects. Returns true if the specified object is of specific type.
+                 # Processes each brand for the selected product
                 for brand, item_info in selected_items.items():
                     if len(item_info) == 2:
                         price = item_info[0]
@@ -218,37 +230,43 @@ def compare_prices():
                     else:
                         price = item_info
                         deal = ""
-                    result_text += f"{brand}: ${price}"
+                    # Product information displayed
+                    result_text += f"{brand}: ${price}" # f strings for to embed python expressions
                     if deal:
                         result_text += f" ({deal})"
                     result_text += "\n"
+                    # Tracking cheapest price using if elif statements 
                     if price < cheapest_price:
                         cheapest_price = price
                         cheapest_supermarkets = [supermarket]
                         cheapest_brands = [brand]
                         cheapest_deals = [deal]
                     elif price == cheapest_price:
-                        cheapest_supermarkets.append(supermarket)
+                        cheapest_supermarkets.append(supermarket) # append is to add an additional object to the list
                         cheapest_brands.append(brand)
                         cheapest_deals.append(deal)
 
             result_text += "\n"
 
+    
+    # Updating result table 
     result_text += f"Cheapest Price for {selected_product}: ${cheapest_price}"
     if cheapest_supermarkets:
         result_text += " (from "
+        # For loop
         for i in range(len(cheapest_supermarkets)):
             result_text += f"{cheapest_supermarkets[i]} - {cheapest_brands[i]}"
             if cheapest_deals[i]:
                 result_text += f" ({cheapest_deals[i]})"
-            if i < len(cheapest_supermarkets) - 1:
+            if i < len(cheapest_supermarkets) - 1: # len returns length of object, determines the size of data. 
                 result_text += ", "
         result_text += ")"
 
-    result_label.config(state="normal")
-    result_label.delete("1.0", tk.END)
-    result_label.insert(tk.END, result_text)
-    result_label.config(state="disabled")
+    # Updating result_label widget with the result_text
+    result_label.config(state="normal") # setting the text widget to be editable 
+    result_label.delete("1.0", tk.END) # delete contents of result_label widget. 1.0 represents the first character of text 
+    result_label.insert(tk.END, result_text) # place contents from result_text at end of text in widget
+    result_label.config(state="disabled") # making text read-only cannot be modified
 
 
     
